@@ -13,7 +13,7 @@ public class Enemy {
 	private float speed, x, y;
 	private Texture texture;
 	private Tile startTile;
-	private boolean first = true;
+	private boolean first = true, alive = true;
 	private TileGrid grid;
 	
 	private ArrayList<Checkpoint> checkpoints;
@@ -44,7 +44,7 @@ public class Enemy {
 		else {
 			if(CheckpointReached()) {
 				if(currentCheckpoint + 1 == checkpoints.size())
-					System.out.println("Enemy Reached End Of Maze");
+					Die();
 				else
 					currentCheckpoint++;
 			} else {
@@ -133,19 +133,11 @@ public class Enemy {
 		return dir;
 	}
 	
-	/*
-	private boolean pathContinues() {
-		boolean answer = true;
+	private void Die() {
+		alive = false;
 		
-		Tile myTile = grid.getTile((int) (x/64), (int) (y/64));
-		Tile nextTile = grid.getTile((int) (x/64) + 1, (int) (y/64));
-		
-		if(myTile.getType() != nextTile.getType())
-			answer = false;
-		
-		return answer;
 	}
-	*/
+	
 	
 	public void Draw() {
 		DrawQuadTex(texture, x, y, width, height);
@@ -225,6 +217,10 @@ public class Enemy {
 	
 	public TileGrid getTileGrid () {
 		return grid;
+	}
+	
+	public boolean isAlive() {
+		return alive;
 	}
 	
 }

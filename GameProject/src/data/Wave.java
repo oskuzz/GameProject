@@ -4,32 +4,35 @@ import java.util.ArrayList;
 import static helpers.Clock.*;
 
 public class Wave {
-	
+
 	private float timeSinceLastSpawn, spawnTime;
 	private Enemy enemyType;
 	private ArrayList<Enemy> enemyList;
-	
+
 	public Wave(float spawnTime, Enemy enemyType) {
 		this.enemyType = enemyType;
 		this.spawnTime = spawnTime;
 		timeSinceLastSpawn = 0;
 		enemyList = new ArrayList<>();
 	}
-	
+
 	public void Update() {
-		timeSinceLastSpawn +=Delta();
-		if(timeSinceLastSpawn > spawnTime) {
+		timeSinceLastSpawn += Delta();
+		if (timeSinceLastSpawn > spawnTime) {
 			Spawn();
 			timeSinceLastSpawn = 0;
 		}
-		
-		for (Enemy e: enemyList) {
-			e.Update();
-			e.Draw();
+
+		for (Enemy e : enemyList) {
+			if (e.isAlive()) {
+				e.Update();
+				e.Draw();
+			}
 		}
 	}
-	
+
 	public void Spawn() {
-		enemyList.add(new Enemy(enemyType.getTexture(), enemyType.getStartTile(),enemyType.getTileGrid(), 64, 64, enemyType.getSpeed()));
+		enemyList.add(new Enemy(enemyType.getTexture(), enemyType.getStartTile(), enemyType.getTileGrid(), 64, 64,
+				enemyType.getSpeed()));
 	}
 }
